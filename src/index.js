@@ -4,22 +4,33 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
+
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import burgerBuilderReducer from './store/reducers/burgerBuilder';
 import orderReducer from './store/reducers/order';
+import authReducer from './store/reducers/auth';
 
 //typeof window !== 'undefined' && 
 //for post
 //https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key=[API_KEY]
+//key
+//AIzaSyAEXA2d6AV3yf2RAJgNFknA0vN-E3d_h3Q
 
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+//https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]
+
+//https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
+
+
+
+const composeEnhancers = process.env.NODE_ENV === 'development'? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const rootReducer = combineReducers({
     burgerBuilder: burgerBuilderReducer,
-    order: orderReducer
+    order: orderReducer,
+    auth: authReducer
 });
 
 const store = createStore(rootReducer, composeEnhancers(
@@ -36,7 +47,4 @@ const app = (
 
 ReactDOM.render(app, document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
